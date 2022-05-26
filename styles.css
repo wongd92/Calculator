@@ -12,3 +12,7 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
 }
+
+.btn-1, .btn-2 {
+    
+}
