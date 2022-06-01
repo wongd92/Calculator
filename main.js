@@ -57,14 +57,41 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
             operator = operators[3];
         }
 
+        else if (buttonValue.textContent === "SQRT") {
+            displayValue = currentNum;
+            populateDisplay(buttonValue.textContent);
+
+            tempNum1 = currentNum.slice(0,-1);
+            sqrt(parseFloat(tempNum1))
+            currentNum = '';
+        }
+
+        else if (buttonValue.textContent === "+/-") {
+            currentNum = String(currentNum * -1);
+            screenText.innerText = currentNum;
+        }
+
+        else if (buttonValue.textContent === "%") {
+            displayValue = currentNum;
+            populateDisplay(buttonValue.textContent);
+
+            tempNum1 = parseFloat(currentNum.slice(0,-1));
+            percent(tempNum1);
+            currentNum = '';
+        }
+
+        else if (buttonValue.textContent === "AC") {
+            window.location.reload();
+        }
+
         else if (buttonValue.textContent === "=") {
-            if (currentNum.includes(operators[0]) || currentNum.includes(operators[1])
+            if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) && String(currentNum).length > 1
                 || currentNum.includes(operators[2]) || currentNum.includes(operators[3])) {
             
-                tempNum2 = parseInt(currentNum.slice(tempNum1.length).replace('+','')
-                .replace('-','').replace('x','').replace('/',''));
+                tempNum2 = currentNum.slice(tempNum1.length).replace('+','')
+                .replace('-','').replace('x','').replace('/','');
             
-                operate(operator, parseInt(tempNum1), parseInt(tempNum2));
+                operate(operator, parseFloat(tempNum1), parseFloat(tempNum2));
             }
             
             else {
@@ -72,9 +99,6 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
             }
         }
 
-        else {
-            populateDisplay(buttonValue.textContent);
-        }
     })
 });
 
@@ -85,7 +109,7 @@ function populateDisplay(number) {
 
 // function for add
 function addition(x,y) {
-    return screenText.innerText = x+y
+    return screenText.innerText = x+y;
 }
 
 // function for subtract
@@ -100,6 +124,15 @@ function multiply(x,y) {
 // function for divide
 function divide(x,y){
     return screenText.innerText = x/y;
+}
+
+// function for sqrt
+function sqrt(x) {
+    return screenText.innerText = Math.sqrt(x);
+}
+
+function percent(x){
+    return screenText.innerText = x / 100.0;
 }
 
 // operate function
@@ -120,7 +153,7 @@ function operate(operator, num1, num2) {
         currentNum = '';
     }
 
-    else {
+    else if (operator === "/") {
         divide(num1, num2);
         currentNum = '';
     }
