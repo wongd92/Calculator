@@ -2,10 +2,11 @@
 
 let tempNum1 = 0;
 let tempNum2 = 0;
+let operators = ["+", "-", "x", "/"];
+let operator = "";
 let currentNum = '';
 let screenText = document.querySelector('.current-num');
 let lastChar = document.querySelectorAll('.btn-1').innerHTML;
-let operator = "";
 
 document.querySelectorAll('.btn-2').forEach(buttonValue => {
     buttonValue.addEventListener('click', () =>{
@@ -26,7 +27,7 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
             populateDisplay(buttonValue.textContent);
             tempNum1 = currentNum.slice(0, -1);
 
-            operator = "+";
+            operator = operators[0];
         }       
 
         else if (buttonValue.textContent === "-"){
@@ -35,7 +36,7 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
 
             tempNum1 = currentNum.slice(0, -1);
 
-            operator = "-";
+            operator = operators[1];
         }
 
         else if (buttonValue.textContent === "x"){
@@ -44,7 +45,7 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
 
             tempNum1 = currentNum.slice(0, -1);
 
-            operator = "x";
+            operator = operators[2];
         }
 
         else if (buttonValue.textContent === "/"){
@@ -53,14 +54,22 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
 
             tempNum1 = currentNum.slice(0, -1);
 
-            operator = "/";
+            operator = operators[3];
         }
 
         else if (buttonValue.textContent === "=") {
-            tempNum2 = parseInt(currentNum.slice(tempNum1.length).replace('+','')
-            .replace('-','').replace('x','').replace('/',''));
+            if (currentNum.includes(operators[0]) || currentNum.includes(operators[1])
+                || currentNum.includes(operators[2]) || currentNum.includes(operators[3])) {
             
-            operate(operator, parseInt(tempNum1), parseInt(tempNum2));
+                tempNum2 = parseInt(currentNum.slice(tempNum1.length).replace('+','')
+                .replace('-','').replace('x','').replace('/',''));
+            
+                operate(operator, parseInt(tempNum1), parseInt(tempNum2));
+            }
+            
+            else {
+                return 1;
+            }
         }
 
         else {
@@ -99,8 +108,6 @@ function operate(operator, num1, num2) {
     if (operator === "+") {
         addition(num1, num2);
         currentNum = '';
-        console.log(addition(num1, num2));
-        console.log(currentNum);
     }
 
     else if (operator === "-"){
