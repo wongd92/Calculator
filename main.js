@@ -2,10 +2,12 @@
 
 let tempNum1 = 0;
 let tempNum2 = 0;
+let returnNum = '';
 let operators = ["+", "-", "x", "/"];
 let operator = "";
 let currentNum = '';
 let screenText = document.querySelector('.current-num');
+let savedText = document.querySelector('.saved-num');
 let lastChar = document.querySelectorAll('.btn-1').innerHTML;
 
 document.querySelectorAll('.btn-2').forEach(buttonValue => {
@@ -24,10 +26,10 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
         }
 
         if (buttonValue.textContent === "+") {
-            populateDisplay(buttonValue.textContent);
-            tempNum1 = currentNum.slice(0, -1);
+                populateDisplay(buttonValue.textContent);
+                tempNum1 = currentNum.slice(0, -1);
 
-            operator = operators[0];
+                operator = operators[0];
         }       
 
         else if (buttonValue.textContent === "-"){
@@ -63,7 +65,6 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
 
             tempNum1 = currentNum.slice(0,-1);
             sqrt(parseFloat(tempNum1))
-            currentNum = '';
         }
 
         else if (buttonValue.textContent === "+/-") {
@@ -77,7 +78,6 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
 
             tempNum1 = parseFloat(currentNum.slice(0,-1));
             percent(tempNum1);
-            currentNum = '';
         }
 
         else if (buttonValue.textContent === "AC") {
@@ -85,9 +85,17 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
         }
 
         else if (buttonValue.textContent === "=") {
+// LOOK AT THIS PART AFTER TO FIND THE SECOND NUMBer
+            if (currentNum[0] === operators[0] || currentNum[0] === operators[1] ||
+                currentNum[0] === operators[2] || currentNum[0] === operators[3]) {
+                    tempNum2 = currentNum.replace('+','').replace('-','').replace('x','').replace('/','');
+                    operate(operator, parseFloat(returnNum), parseFloat(tempNum2));
+            }
+
             if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) && String(currentNum).length > 1
                 || currentNum.includes(operators[2]) || currentNum.includes(operators[3])) {
             
+                
                 tempNum2 = currentNum.slice(tempNum1.length).replace('+','')
                 .replace('-','').replace('x','').replace('/','');
             
@@ -109,29 +117,43 @@ function populateDisplay(number) {
 
 // function for add
 function addition(x,y) {
-    return screenText.innerText = x+y;
+    currentNum = '';
+    returnNum = x+y;
+    screenText.innerText = returnNum;
+    return returnNum;
 }
 
 // function for subtract
 function subtract(x,y) {
-    return screenText.innerText = x-y;
+    currentNum = '';
+    returnNum = x-y;
+    screenText.innerText = returnNum;
+    return returnNum;
 }
 // function for multiply
 function multiply(x,y) {
-    return screenText.innerText = x*y;
+    currentNum = '';
+    returnNum = x*y;
+    screenText.innerText = returnNum;
+    return returnNum;
 }
 
 // function for divide
 function divide(x,y){
-    return screenText.innerText = x/y;
+    currentNum = '';
+    returnNum = x/y;
+    screenText.innerText = returnNum;
+    return returnNum;
 }
 
 // function for sqrt
 function sqrt(x) {
+    currentNum = '';
     return screenText.innerText = Math.sqrt(x);
 }
 
 function percent(x){
+    currentNum = '';
     return screenText.innerText = x / 100.0;
 }
 
@@ -140,21 +162,17 @@ function percent(x){
 function operate(operator, num1, num2) {
     if (operator === "+") {
         addition(num1, num2);
-        currentNum = '';
     }
 
     else if (operator === "-"){
         subtract(num1, num2);
-        currentNum = '';
     }
 
     else if(operator === "x"){
         multiply(num1, num2);
-        currentNum = '';
     }
 
     else if (operator === "/") {
         divide(num1, num2);
-        currentNum = '';
     }
 }
