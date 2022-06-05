@@ -2,7 +2,6 @@
 
 let tempNum1 = 0;
 let tempNum2 = 0;
-let negValue = 0;
 let returnNum = '';
 let operators = ["+", "-", "x", "/", "SQRT", "%"];
 let operator = "";
@@ -56,14 +55,18 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
         }
 
         else if (buttonValue.textContent === "SQRT") {
-            populateDisplay(buttonValue.textContent);
+            if (currentNum === '') {
+                tempNum1 = tempNum2;
+                sqrt(tempNum1);
+            }
 
-            tempNum1 = currentNum.slice(0,-1);
-            sqrt(parseFloat(tempNum1))
+            else {
+                tempNum1 = currentNum;
+                sqrt(tempNum1);
+            }
         }
 
         else if (buttonValue.textContent === "+/-") {
-            currentNum = currentNum * -1;
             plusMinus(currentNum);
         }
 
@@ -83,7 +86,7 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
             currentNum.includes(operators[1]) || currentNum.includes(operators[2]) || 
             currentNum.includes(operators[3]) || currentNum.includes(operators[4])){
                 tempNum2 = currentNum.slice(tempNum1.length).replace('+', '').replace('-', '').replace('x','')
-                .replace('/','').replace('SQRT', '');
+                .replace('/','');
                 operate(operator, parseFloat(tempNum1), parseFloat(tempNum2));
                 console.log(tempNum2);
             }
@@ -152,10 +155,10 @@ function divide(x,y){
 
 // function for sqrt
 function sqrt(x) {
+    tempNum1 = Math.sqrt(x);
+    screenText.innerText = tempNum1;            
+    tempNum2 = tempNum1;
     currentNum = '';
-    returnNum = Math.sqrt(x);
-    screenText.innerText = returnNum;
-    return returnNum;
 }
 
 function percent(x){
@@ -166,9 +169,8 @@ function percent(x){
 }
 
 function plusMinus(x) {
-    returnNum = x;
-    screenText.innerText = returnNum;
-    return returnNum;
+    currentNum = x * -1;
+    screenText.innerText = currentNum;
 }
 
 // operate function
