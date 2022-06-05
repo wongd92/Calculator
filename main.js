@@ -3,8 +3,9 @@
 let tempNum1 = 0;
 let tempNum2 = 0;
 let sqrtNum = 0;
-let returnNum = '';
+let savedNum = 0;
 let negNum = 0;
+let returnNum = '';
 let operators = ["+", "-", "x", "/", "SQRT", "%"];
 let operator = "";
 let currentNum = '';
@@ -28,35 +29,63 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
         }
 
         if (buttonValue.textContent === "+") {
+            if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) || 
+            currentNum.includes(operators[2]) || currentNum.includes(operators[3])){
+                return 1;
+            }
+
+            else {
                 populateDisplay(buttonValue.textContent);
                 tempNum1 = currentNum.slice(0, -1);
                 operator = operators[0];
+            }
         }       
 
         else if (buttonValue.textContent === "-"){
-            populateDisplay(buttonValue.textContent);
+            if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) || 
+            currentNum.includes(operators[2]) || currentNum.includes(operators[3])){
+                return 1;
+            }
 
-            tempNum1 = currentNum.slice(0, -1);
-
-            operator = operators[1];
+            else {
+                populateDisplay(buttonValue.textContent);
+                tempNum1 = currentNum.slice(0, -1);
+                operator = operators[1];
+            }
         }
 
         else if (buttonValue.textContent === "x"){
-            populateDisplay(buttonValue.textContent);
+            if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) || 
+            currentNum.includes(operators[2]) || currentNum.includes(operators[3])){
+                return 1;
+            }
 
-            tempNum1 = currentNum.slice(0, -1);
-            operator = operators[2];
+            else {
+                populateDisplay(buttonValue.textContent);
+                tempNum1 = currentNum.slice(0, -1);
+                operator = operators[2];
+            }
         }
 
         else if (buttonValue.textContent === "/"){
-            populateDisplay(buttonValue.textContent);
+            if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) || 
+            currentNum.includes(operators[2]) || currentNum.includes(operators[3])){
+                return 1;
+            }
 
-            tempNum1 = currentNum.slice(0, -1);
-
-            operator = operators[3];
+            else {
+                populateDisplay(buttonValue.textContent);
+                tempNum1 = currentNum.slice(0, -1);
+                operator = operators[3];
+            }
         }
 
         else if (buttonValue.textContent === "SQRT") {
+            if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) || 
+            currentNum.includes(operators[2]) || currentNum.includes(operators[3])){
+                return 1;
+            }
+
             if (currentNum === '') {
                 sqrtNum = tempNum2;
                 sqrt(sqrtNum);
@@ -70,15 +99,22 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
         }
 
         else if (buttonValue.textContent === "+/-") {
+            console.log(currentNum);
             negNum = currentNum;
             plusMinus(negNum);
         }
 
         else if (buttonValue.textContent === "%") {
-            populateDisplay(buttonValue.textContent);
+            if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) || 
+            currentNum.includes(operators[2]) || currentNum.includes(operators[3])){
+                return 1;
+            }
 
-            tempNum1 = parseFloat(currentNum.slice(0,-1));
-            percent(tempNum1);
+            else {
+                populateDisplay(buttonValue.textContent);
+                tempNum1 = parseFloat(currentNum.slice(0,-1));
+                percent(tempNum1);
+            }
         }
 
         else if (buttonValue.textContent === "AC") {
@@ -92,11 +128,11 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
                     tempNum2 = currentNum.replace('+','').replace('-','').replace('x','').replace('/','')
                     .replace('SQRT','').replace("%", '');
                     operate(operator, parseFloat(returnNum), parseFloat(tempNum2));
-                    console.log("return: " + returnNum, "temp2: " + tempNum2);
             }
 
             if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) && String(currentNum).length > 1 || 
                 currentNum.includes(operators[2]) || currentNum.includes(operators[3])) {
+                    console.log(currentNum);
                     tempNum2 = currentNum.slice(tempNum1.length).replace('+','')
                     .replace('-','').replace('x','').replace('/','');
                     operate(operator, parseFloat(tempNum1), parseFloat(tempNum2));
