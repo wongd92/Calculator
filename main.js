@@ -2,7 +2,9 @@
 
 let tempNum1 = 0;
 let tempNum2 = 0;
+let sqrtNum = 0;
 let returnNum = '';
+let negNum = 0;
 let operators = ["+", "-", "x", "/", "SQRT", "%"];
 let operator = "";
 let currentNum = '';
@@ -56,18 +58,20 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
 
         else if (buttonValue.textContent === "SQRT") {
             if (currentNum === '') {
-                tempNum1 = tempNum2;
-                sqrt(tempNum1);
+                sqrtNum = tempNum2;
+                sqrt(sqrtNum);
             }
 
             else {
-                tempNum1 = currentNum;
-                sqrt(tempNum1);
+                sqrtNum = currentNum;
+                console.log(sqrtNum);
+                sqrt(sqrtNum);
             }
         }
 
         else if (buttonValue.textContent === "+/-") {
-            plusMinus(currentNum);
+            negNum = currentNum;
+            plusMinus(negNum);
         }
 
         else if (buttonValue.textContent === "%") {
@@ -82,31 +86,20 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
         }
 
         else if (buttonValue.textContent === "=") {
-            if (currentNum[0] === operators[1] && currentNum.includes(operators[0]) || 
-            currentNum.includes(operators[1]) || currentNum.includes(operators[2]) || 
-            currentNum.includes(operators[3]) || currentNum.includes(operators[4])){
-                tempNum2 = currentNum.slice(tempNum1.length).replace('+', '').replace('-', '').replace('x','')
-                .replace('/','');
-                operate(operator, parseFloat(tempNum1), parseFloat(tempNum2));
-                console.log(tempNum2);
-            }
-
             if (currentNum[0] === operators[0] || currentNum[0] === operators[1] ||
                 currentNum[0] === operators[2] || currentNum[0] === operators[3] ||
                 currentNum[0] === operators[4] || currentNum[0] === operators[5]) {
                     tempNum2 = currentNum.replace('+','').replace('-','').replace('x','').replace('/','')
                     .replace('SQRT','').replace("%", '');
                     operate(operator, parseFloat(returnNum), parseFloat(tempNum2));
+                    console.log("return: " + returnNum, "temp2: " + tempNum2);
             }
 
-            if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) && String(currentNum).length > 1
-                || currentNum.includes(operators[2]) || currentNum.includes(operators[3])) {
-            
-                
-                tempNum2 = currentNum.slice(tempNum1.length).replace('+','')
-                .replace('-','').replace('x','').replace('/','');
-            
-                operate(operator, parseFloat(tempNum1), parseFloat(tempNum2));
+            if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) && String(currentNum).length > 1 || 
+                currentNum.includes(operators[2]) || currentNum.includes(operators[3])) {
+                    tempNum2 = currentNum.slice(tempNum1.length).replace('+','')
+                    .replace('-','').replace('x','').replace('/','');
+                    operate(operator, parseFloat(tempNum1), parseFloat(tempNum2));
             }
             
             else {
@@ -118,8 +111,14 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
 });
 
 function populateDisplay(number) {
-    currentNum += number;
-    screenText.innerText = currentNum;
+    if (currentNum.length > 16) {
+        return 1;
+    }
+
+    else {
+        currentNum += number;
+        screenText.innerText = currentNum;
+    }
 }
 
 // function for add
@@ -155,9 +154,9 @@ function divide(x,y){
 
 // function for sqrt
 function sqrt(x) {
-    tempNum1 = Math.sqrt(x);
-    screenText.innerText = tempNum1;            
-    tempNum2 = tempNum1;
+    sqrtNum = Math.sqrt(x);
+    screenText.innerText = sqrtNum;            
+    tempNum2 = sqrtNum;
     currentNum = '';
 }
 
@@ -169,8 +168,10 @@ function percent(x){
 }
 
 function plusMinus(x) {
-    currentNum = x * -1;
-    screenText.innerText = currentNum;
+    currentNum = '';
+    returnNum = x * -1;
+    screenText.innerText = returnNum;
+    return returnNum;
 }
 
 // operate function
