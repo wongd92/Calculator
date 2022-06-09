@@ -12,27 +12,32 @@ let screenText = document.querySelector('.current-num');
 let savedText = document.querySelector('.saved-num');
 let lastChar = document.querySelectorAll('.btn-1').innerHTML;
 
+// Immediately update screen and display value for each number (0-9) only
 document.querySelectorAll('.btn-2').forEach(buttonValue => {
     buttonValue.addEventListener('click', () =>{
             populateDisplay(buttonValue.textContent);
     })
 });
 
-
+// Logic for running through operators and handling subsequent equations
 document.querySelectorAll('.btn-1').forEach(buttonValue => {
     buttonValue.addEventListener('click', () =>{
+        // Value only displays if it begins with a number
         if (screenText.innerText.slice(-1) === "+" || screenText.innerText.slice(-1) === "-" ||
             screenText.innerText.slice(-1) === "x" || screenText.innerText.slice(-1) === "/" ||
             screenText.innerHTML === "&nbsp;") {
                 return 1;
         }
 
+        // Save values of each operand and operator for calculation logic
         if (buttonValue.textContent === "+") {
+            // Logic to restrict operators from being clicked back-to-back
             if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) || 
             currentNum.includes(operators[2]) || currentNum.includes(operators[3])){
                 return 1;
             }
 
+            // Save value for operand on left of operator
             else {
                 populateDisplay(buttonValue.textContent);
                 tempNum1 = currentNum.slice(0, -1);
@@ -130,8 +135,9 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
             window.location.reload();
         }
 
+        // Process the equation by removing the operator from display if 
+        // calculating an equation utilizing a previous answer
         else if (buttonValue.textContent === "=") {
-            console.log("t1: " + tempNum1, "t2: " + tempNum2, "c: " + currentNum, "r: " + returnNum);
             if (currentNum[0] === operators[0] || currentNum[0] === operators[1] ||
                 currentNum[0] === operators[2] || currentNum[0] === operators[3]) {
                     savedText.innerText = returnNum + currentNum;
@@ -139,6 +145,7 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
                     operate(operator, parseFloat(returnNum), parseFloat(tempNum2));
             }
 
+            // Process the equation by determining operand on right side of a full equation
             if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) && String(currentNum).length > 1 || 
                 currentNum.includes(operators[2]) || currentNum.includes(operators[3])) {
                     savedText.innerText = currentNum;
@@ -156,7 +163,7 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
 });
 
 function populateDisplay(number) {
-    if (currentNum.length > 16) {
+    if (currentNum.length > 12) {
         return 1;
     }
 
@@ -205,6 +212,7 @@ function sqrt(x) {
     currentNum = '';
 }
 
+// function to determine a percentage from a value
 function percent(x){
     currentNum = '';
     returnNum = x / 100.0;
@@ -212,6 +220,7 @@ function percent(x){
     return returnNum;
 }
 
+// function for processing +/- and turning numbers into negative or positive
 function plusMinus(x) {
     currentNum = '';
     returnNum = x * -1;
@@ -219,7 +228,7 @@ function plusMinus(x) {
     return returnNum;
 }
 
-// operate function
+// operate function requiring 3 saved values from previous logic
 
 function operate(operator, num1, num2) {
     if (operator === "+") {
