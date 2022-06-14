@@ -31,13 +31,36 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
 
         // Save values of each operand and operator for calculation logic
         if (buttonValue.textContent === "+") {
-            // Logic to restrict operators from being clicked back-to-back
+            // Logic to restrict multiple operators from being clicked in succession
+            // Logic to process a single pair of numbers at a time while handling mutliple operators
             if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) || 
             currentNum.includes(operators[2]) || currentNum.includes(operators[3])){
-                return 1;
+                if (currentNum[0] === operators[0] || currentNum[0] === operators[1] ||
+                    currentNum[0] === operators[2] || currentNum[0] === operators[3]) {
+                        savedText.innerText = returnNum + currentNum;
+                        tempNum2 = currentNum.replace('+','').replace('-','').replace('x','').replace('/','');
+                        operate(operator, parseFloat(returnNum), parseFloat(tempNum2));
+
+                        tempNum1 = currentNum.slice(0, -1);
+                        operator = operators[0];
+                }
+    
+                // Process the equation by determining operand on right side of a full equation
+                else if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) && String(currentNum).length > 1 || 
+                    currentNum.includes(operators[2]) || currentNum.includes(operators[3])) {
+                        savedText.innerText = currentNum;
+                        tempNum2 = currentNum.slice(tempNum1.length).replace('+','')
+                        .replace('-','').replace('x','').replace('/','');
+                        operate(operator, parseFloat(tempNum1), parseFloat(tempNum2));
+
+                        populateDisplay(buttonValue.textContent);
+                        tempNum1 = currentNum.slice(0, -1);
+                        operator = operators[0];
+                }
             }
 
             // Save value for operand on left of operator
+            // display operator value on screen
             else {
                 populateDisplay(buttonValue.textContent);
                 tempNum1 = currentNum.slice(0, -1);
@@ -48,7 +71,28 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
         else if (buttonValue.textContent === "-"){
             if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) || 
             currentNum.includes(operators[2]) || currentNum.includes(operators[3])){
-                return 1;
+                if (currentNum[0] === operators[0] || currentNum[0] === operators[1] ||
+                    currentNum[0] === operators[2] || currentNum[0] === operators[3]) {
+                        savedText.innerText = returnNum + currentNum;
+                        tempNum2 = currentNum.replace('+','').replace('-','').replace('x','').replace('/','');
+                        operate(operator, parseFloat(returnNum), parseFloat(tempNum2));
+
+                        tempNum1 = currentNum.slice(0, -1);
+                        operator = operators[1];
+                }
+                
+                // Process the equation by determining operand on right side of a full equation
+                else if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) && String(currentNum).length > 1 || 
+                    currentNum.includes(operators[2]) || currentNum.includes(operators[3])) {
+                        savedText.innerText = currentNum;
+                        tempNum2 = currentNum.slice(tempNum1.length).replace('+','')
+                        .replace('-','').replace('x','').replace('/','');
+                        operate(operator, parseFloat(tempNum1), parseFloat(tempNum2));
+
+                        populateDisplay(buttonValue.textContent);
+                        tempNum1 = currentNum.slice(0, -1);
+                        operator = operators[1];
+                }
             }
 
             else {
@@ -60,8 +104,31 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
 
         else if (buttonValue.textContent === "x"){
             if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) || 
-            currentNum.includes(operators[2]) || currentNum.includes(operators[3], operators[4])){
-                return 1;
+            currentNum.includes(operators[2]) || currentNum.includes(operators[3])){
+                if (currentNum[0] === operators[0] || currentNum[0] === operators[1] ||
+                    currentNum[0] === operators[2] || currentNum[0] === operators[3]) {
+                        savedText.innerText = returnNum + currentNum;
+                        tempNum2 = currentNum.replace('+','').replace('-','').replace('x','').replace('/','');
+                        operate(operator, parseFloat(returnNum), parseFloat(tempNum2));
+
+                        populateDisplay(buttonValue.textContent);
+                        tempNum1 = currentNum.slice(0, -1);
+                        operator = operators[2];
+
+                }
+    
+                // Process the equation by determining operand on right side of a full equation
+                else if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) && String(currentNum).length > 1 || 
+                    currentNum.includes(operators[2]) || currentNum.includes(operators[3])) {
+                        savedText.innerText = currentNum;
+                        tempNum2 = currentNum.slice(tempNum1.length).replace('+','')
+                        .replace('-','').replace('x','').replace('/','')
+                        operate(operator, parseFloat(tempNum1), parseFloat(tempNum2));
+
+                        populateDisplay(buttonValue.textContent);
+                        tempNum1 = currentNum.slice(0, -1);
+                        operator = operators[2];
+                }
             }
 
             else {
@@ -74,7 +141,25 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
         else if (buttonValue.textContent === "/"){
             if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) || 
             currentNum.includes(operators[2]) || currentNum.includes(operators[3], operators[4])){
-                return 1;
+                if (currentNum[0] === operators[0] || currentNum[0] === operators[1] ||
+                    currentNum[0] === operators[2] || currentNum[0] === operators[3]) {
+                        savedText.innerText = returnNum + currentNum;
+                        tempNum2 = currentNum.replace('+','').replace('-','').replace('x','').replace('/','');
+                        operate(operator, parseFloat(returnNum), parseFloat(tempNum2));
+                }
+    
+                // Process the equation by determining operand on right side of a full equation
+                else if (currentNum.includes(operators[0]) || currentNum.includes(operators[1]) && String(currentNum).length > 1 || 
+                    currentNum.includes(operators[2]) || currentNum.includes(operators[3])) {
+                        savedText.innerText = currentNum;
+                        tempNum2 = currentNum.slice(tempNum1.length).replace('+','')
+                        .replace('-','').replace('x','').replace('/','');
+                        operate(operator, parseFloat(tempNum1), parseFloat(tempNum2));
+
+                        populateDisplay(buttonValue.textContent);
+                        tempNum1 = currentNum.slice(0, -1);
+                        operator = operators[3];
+                }
             }
 
             else {
@@ -103,7 +188,6 @@ document.querySelectorAll('.btn-1').forEach(buttonValue => {
         }
 
         else if (buttonValue.textContent === "+/-") {
-            console.log(currentNum);
             negNum = currentNum;
             plusMinus(negNum);
         }
@@ -167,7 +251,7 @@ function populateDisplay(number) {
         return 1;
     }
 
-    else {
+    else {  
         currentNum += number;
         screenText.innerText = currentNum;
     }
@@ -222,10 +306,18 @@ function percent(x){
 
 // function for processing +/- and turning numbers into negative or positive
 function plusMinus(x) {
-    currentNum = '';
-    returnNum = x * -1;
-    screenText.innerText = returnNum;
-    return returnNum;
+    if (currentNum === '') {
+        returnNum = returnNum * -1;
+        screenText.innerText = returnNum;
+    }
+
+    else {
+        currentNum = '';
+        returnNum = x * -1;
+        screenText.innerText = returnNum;
+    }
+
+    return returnNum; 
 }
 
 // operate function requiring 3 saved values from previous logic
